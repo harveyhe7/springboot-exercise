@@ -56,5 +56,33 @@ public class CompanyController {
     }
 
 
+    @PostMapping("")
+    public Company addCompany(@RequestBody Company company) {
+        int id = companyList.size() + 1;
+        company.setId(id);
+        companyList.add(company);
+        return company;
+    }
+
+    @PutMapping("/{id}")
+    public Company updateCompanyName(@PathVariable int id) {
+        for (int i = 0; i < companyList.size(); i++) {
+            if (companyList.get(i).getId() == id) {
+                Company company = companyList.get(i);
+                String name = "updateName";
+                company.setName(name);
+                return company;
+            }
+        }
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCompany(@PathVariable int id) {
+        companyList = companyList.stream()
+                .filter(company -> company.getId() != id)
+                .collect(Collectors.toList());
+    }
+
 
 }
