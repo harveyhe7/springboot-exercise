@@ -1,10 +1,13 @@
 package com.oocl.training.controller;
 
+import jakarta.websocket.server.PathParam;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController()
 @RequestMapping("/employees")
@@ -15,8 +18,18 @@ public class EmployeeController {
                     new Employee(3, "Alice", 31, "Female", 8000)));
 
     @GetMapping("")
-    public ArrayList<Employee> getEmployees() {
-        return employees;
+    public ArrayList<Employee> getEmployees(@RequestParam(required = false) String gender) {
+        if (gender == null || gender.isEmpty()) {
+            return employees; // 返回所有员工
+        }
+
+        ArrayList<Employee> filteredList = new ArrayList<>();
+        for (Employee emp : employees) {
+            if (emp.getGender().equalsIgnoreCase(gender)) {
+                filteredList.add(emp);
+            }
+        }
+        return filteredList;
     }
 
     @GetMapping("/{id}")
@@ -42,4 +55,23 @@ public class EmployeeController {
         }
         return null;
     }
+
+    @PostMapping("")
+    public Employee addEmployee(@RequestBody Employee employee) {
+        int newId = employees.size() + 1;
+        employee.setId(newId);
+        employees.add(employee);
+        return employee;
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployee(@PathVariable int id) {
+//        删除指定id的员工
+        employees = employees.stream()
+                .filter(employee -> employee.getId() != id)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+    }
+
 }
