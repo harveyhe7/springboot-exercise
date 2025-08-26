@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,5 +44,17 @@ public class CompanyController {
                 .findFirst()
                 .orElse(null);
     }
+
+
+    @GetMapping("/{id}/employees")
+    public List<Employee> getEmployeesByCompanyId(@PathVariable int id) {
+        return companyList.stream()
+                .filter(c -> c.getId() == id)
+                .map(Company::getEmployees)
+                .findFirst()
+                .orElse(Collections.emptyList());
+    }
+
+
 
 }
