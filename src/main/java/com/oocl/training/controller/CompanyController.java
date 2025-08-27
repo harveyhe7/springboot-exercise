@@ -45,6 +45,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(code = org.springframework.http.HttpStatus.NO_CONTENT)
     public void deleteCompany(@PathVariable int id) {
         companyService.deleteCompanyById(id);
     }
