@@ -1,4 +1,4 @@
-package com.oocl.training.controller;
+package com.oocl.training.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

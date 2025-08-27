@@ -33,7 +33,6 @@ public class EmployeeService {
         }
 
         return employeeDao.getGenderEmployees(gender);
-
     }
 
     public void removeEmployee(int id) {
