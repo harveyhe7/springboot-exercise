@@ -25,9 +25,9 @@ public class CompanyService {
         return companyDao.createCompany(company);
     }
 
-    public List<Employee> getCompanyAllEmployeesById(int id) {
-        return companyDao.getCompanyAllEmployeesById(id);
-    }
+//    public List<Employee> getCompanyAllEmployeesById(int id) {
+//        return companyDao.getCompanyAllEmployeesById(id);
+//    }
 
     public Company getCompanyById(int id) {
         return companyDao.getCompanyById(id);
