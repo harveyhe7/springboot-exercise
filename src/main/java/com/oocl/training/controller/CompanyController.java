@@ -28,7 +28,7 @@ public class CompanyController {
     }
 
 
-    @GetMapping("/{id}/employees")
+//    @GetMapping("/{id}/employees")
 //    public List<Employee> getEmployeesByCompanyId(@PathVariable int id) {
 //        return companyService.getCompanyAllEmployeesById(id);
 //    }
@@ -40,8 +40,8 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public Company updateCompanyName(@PathVariable int id) {
-        return companyService.updateCompanyName(id);
+    public Company updateCompany(@RequestBody Company company, @PathVariable Integer id) {
+        return companyService.updateCompanyName(company, id);
     }
 
     @DeleteMapping("/{id}")
