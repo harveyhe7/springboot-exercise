@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface JpaEmployeeDao extends JpaRepository<Employee, Integer> {
     List<Employee> getEmployeeByGender(String gender);
-    Employee findByCompanyId(int companyId);
+    Employee getEmployeeById(Integer id);
 }
