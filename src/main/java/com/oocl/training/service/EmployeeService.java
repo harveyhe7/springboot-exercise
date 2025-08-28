@@ -1,8 +1,9 @@
 package com.oocl.training.service;
 
+import com.oocl.training.dao.EmployeeDao;
+import com.oocl.training.dao.EmployeeDbDao;
 import com.oocl.training.exception.InvailEmployeeException;
 import com.oocl.training.model.Employee;
-import com.oocl.training.dao.EmployeeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,12 @@ import java.util.ArrayList;
 @Service
 
 public class EmployeeService {
-    @Autowired
+//    @Autowired
     private EmployeeDao employeeDao;
 
+    public EmployeeService(EmployeeDbDao employeeDbDao) {
+        this.employeeDao = employeeDbDao;
+    }
 
     public Employee createEmployee(Employee employee) {
         if(!(employee.getAge() > 18 && employee.getAge() < 65)) {
@@ -32,7 +36,7 @@ public class EmployeeService {
             return employeeDao.getAllEmployees();
         }
 
-        return employeeDao.getGenderEmployees(gender);
+        return employeeDao.getEmployeesByGender(gender);
     }
 
     public void removeEmployee(int id) {
