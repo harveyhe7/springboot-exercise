@@ -1,8 +1,7 @@
 package com.oocl.training.service;
 
-import com.oocl.training.dao.CompanyDao;
+import com.oocl.training.dao.CompanyDbDao;
 import com.oocl.training.model.Company;
-import com.oocl.training.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,18 +10,18 @@ import java.util.List;
 @Service
 public class CompanyService {
     @Autowired
-    private CompanyDao companyDao;
+    private CompanyDbDao companyDbDao;
 
     public void deleteCompanyById(int id) {
-        companyDao.deleteCompanyById(id);
+        companyDbDao.deleteCompanyById(id);
     }
 
-    public Company updateCompanyName(int id) {
-        return companyDao.updateCompanyName(id);
+    public Company updateCompanyName(Company company,Integer id) {
+        return companyDbDao.updateCompanyName(company,id);
     }
 
     public Company createCompany(Company company) {
-        return companyDao.createCompany(company);
+        return companyDbDao.createCompany(company);
     }
 
 //    public List<Employee> getCompanyAllEmployeesById(int id) {
@@ -30,11 +29,11 @@ public class CompanyService {
 //    }
 
     public Company getCompanyById(int id) {
-        return companyDao.getCompanyById(id);
+        return companyDbDao.getCompanyById(id);
     }
 
     public List<Company> getAllCompanies(Integer page, Integer size) {
-        List<Company> companies = companyDao.getAllCompanies();
+        List<Company> companies = companyDbDao.getAllCompanies();
         if (page != null && size != null) {
             int fromIndex = (page - 1) * size;
             int toIndex = Math.min(fromIndex + size, companies.size());
