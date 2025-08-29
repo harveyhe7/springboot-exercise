@@ -20,9 +20,9 @@ public class EmployeeService {
     }
 
     public Employee createEmployee(Employee employee) {
-        if(!(employee.getAge() > 18 && employee.getAge() < 65)) {
-            throw new InvailEmployeeException("Age must be between 18 and 65");
-        }
+//        if(!(employee.getAge() > 18 && employee.getAge() < 65)) {
+//            throw new InvailEmployeeException("Age must be between 18 and 65");
+//        }
 
         if(employee.getSalary() < 20000 && employee.getAge() >= 30) {
             throw new InvailEmployeeException("Salary must be at least 20000 for employees aged 30 or older");

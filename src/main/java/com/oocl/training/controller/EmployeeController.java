@@ -5,6 +5,7 @@ import com.oocl.training.controller.dto.EmployeeResponse;
 import com.oocl.training.controller.mapper.EmployeeMapper;
 import com.oocl.training.model.Employee;
 import com.oocl.training.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public EmployeeResponse updateEmployee(@PathVariable int id,@RequestParam EmployeeRequest employeeRequest) {
+    public EmployeeResponse updateEmployee(@PathVariable int id,@RequestBody EmployeeRequest employeeRequest) {
         Employee employee = employeeMapper.toEntity(employeeRequest);
         Employee getEmployee = employeeService.updateEmployee(employee, id);
         EmployeeResponse employeeResponse = employeeMapper.toResponse(getEmployee);
@@ -44,7 +45,7 @@ public class EmployeeController {
     }
 
     @PostMapping("")
-    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest employeeRequest) {
+    public EmployeeResponse addEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
         Employee employee = employeeMapper.toEntity(employeeRequest);
         Employee newEmployee = employeeService.createEmployee(employee);
         EmployeeResponse employeeResponse = employeeMapper.toResponse(newEmployee);
