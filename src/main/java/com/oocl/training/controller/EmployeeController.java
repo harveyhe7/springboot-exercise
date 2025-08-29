@@ -1,5 +1,7 @@
 package com.oocl.training.controller;
 
+import com.oocl.training.controller.dto.EmployeeResponse;
+import com.oocl.training.controller.mapper.EmployeeMapper;
 import com.oocl.training.model.Employee;
 import com.oocl.training.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -11,30 +13,39 @@ import java.util.*;
 @RequestMapping("/employees")
 public class EmployeeController {
     private EmployeeService employeeService;
+    private EmployeeMapper employeeMapper;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeMapper employeeMapper) {
         this.employeeService = employeeService;
+        this.employeeMapper = employeeMapper;
     }
 
     @GetMapping("")
-    public ArrayList<Employee> getEmployees(@RequestParam(required = false) String gender) {
-
-        return employeeService.getAllEmployees(gender);
+    public List<EmployeeResponse> getEmployees(@RequestParam(required = false) String gender) {
+        List<Employee> employees = employeeService.getAllEmployees(gender);
+        List<EmployeeResponse> employeeResponses = employeeMapper.toResponse(employees);
+        return  employeeResponses;
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable int id) {
-        return employeeService.getEmployeeById(id);
+    public EmployeeResponse getEmployeeById(@PathVariable int id) {
+        Employee getEmployee = employeeService.getEmployeeById(id);
+        EmployeeResponse employeeResponse = employeeMapper.toResponse(getEmployee);
+        return employeeResponse;
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable int id) {
-        return employeeService.updateEmployee(id);
+    public EmployeeResponse updateEmployee(@PathVariable int id,@RequestParam Employee employee) {
+        Employee getEmployee = employeeService.updateEmployee(employee, id);
+        EmployeeResponse employeeResponse = employeeMapper.toResponse(getEmployee);
+        return employeeResponse;
     }
 
     @PostMapping("")
-    public Employee addEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+    public EmployeeResponse addEmployee(@RequestBody Employee employee) {
+        Employee newEmployee = employeeService.createEmployee(employee);
+        EmployeeResponse employeeResponse = employeeMapper.toResponse(newEmployee);
+        return employeeResponse;
     }
 
     @DeleteMapping("/{id}")
