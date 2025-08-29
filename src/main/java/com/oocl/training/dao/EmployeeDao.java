@@ -14,7 +14,7 @@ public interface EmployeeDao {
 
     public void remove(int id);
 
-    public Employee updateEmployee(int id, int updatedSalary, int updatedAge) ;
+    public Employee updateEmployee(Employee employee, Integer id) ;
 
     public Employee getEmployeeById(int id) throws ResourceNotFoundException ;
 }

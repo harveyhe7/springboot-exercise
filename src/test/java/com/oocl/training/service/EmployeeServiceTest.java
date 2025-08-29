@@ -33,8 +33,10 @@ class EmployeeServiceTest {
     @Test
     void shuold_create_employee_successfully() {
 //        given
+//        Employee inputEmployee = new Employee("oocl", 25, "Male", 8000, true,1);
         Employee inputEmployee = new Employee("oocl", 25, "Male", 8000, true);
-        Employee dbOutMockEmployee = new Employee(6, inputEmployee.getName(), inputEmployee.getAge(), inputEmployee.getGender(), inputEmployee.getSalary(), true,1);
+//        Employee dbOutMockEmployee = new Employee(6, inputEmployee.getName(), inputEmployee.getAge(), inputEmployee.getGender(), inputEmployee.getSalary(), true,1);
+        Employee dbOutMockEmployee = new Employee(6, inputEmployee.getName(), inputEmployee.getAge(), inputEmployee.getGender(), inputEmployee.getSalary(), true);
         Mockito.when(employeeDbDao.save(Mockito.any(Employee.class))).thenReturn(dbOutMockEmployee);
 //        when
         Employee savedEmployee = employeeService.createEmployee(inputEmployee);
@@ -46,8 +48,8 @@ class EmployeeServiceTest {
     @Test
     void create_employee_failed_due_to_age_invalid() {
 //        given
+//        Employee inputEmployee = new Employee("oocl", 17, "Male", 8000, true,1);
         Employee inputEmployee = new Employee("oocl", 17, "Male", 8000, true);
-
 //        when Then
         InvailEmployeeException invailEmployeeException = assertThrows(InvailEmployeeException.class, () -> {
             employeeService.createEmployee(inputEmployee);
@@ -59,8 +61,8 @@ class EmployeeServiceTest {
     @Test
     void create_employee_failed_due_to_salary_and_age_invalid() {
 //        given
+//        Employee inputEmployee = new Employee("oocl", 30, "Male", 8000, true,1);
         Employee inputEmployee = new Employee("oocl", 30, "Male", 8000, true);
-
 //        when Then
         InvailEmployeeException invailEmployeeException = assertThrows(InvailEmployeeException.class, () -> {
             employeeService.createEmployee(inputEmployee);
@@ -73,16 +75,18 @@ class EmployeeServiceTest {
     void shuold_update_employee_successfully() {
 //        given
         Integer id = 1;
+//        Employee inputEmployee = new Employee("oocl", 20, "Male", 8000, true,1);
         Employee inputEmployee = new Employee("oocl", 20, "Male", 8000, true);
-        Employee dbOutMockEmployee = new Employee(id, inputEmployee.getName(), inputEmployee.getAge() + 1, inputEmployee.getGender(), inputEmployee.getSalary() + 1000, true,1);
+//        Employee dbOutMockEmployee = new Employee(id, inputEmployee.getName(), inputEmployee.getAge() + 1, inputEmployee.getGender(), inputEmployee.getSalary() + 1000, true,1);
+        Employee dbOutMockEmployee = new Employee(id, inputEmployee.getName(), inputEmployee.getAge() + 1, inputEmployee.getGender(), inputEmployee.getSalary() + 1000, true);
         Mockito.when(employeeDbDao.getEmployeeById(Mockito.any(Integer.class))).thenReturn(inputEmployee);
-        Mockito.when(employeeDbDao.updateEmployee(Mockito.any(Integer.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(dbOutMockEmployee);
+        Mockito.when(employeeDbDao.updateEmployee(Mockito.any(Employee.class),Mockito.any(Integer.class))).thenReturn(dbOutMockEmployee);
 //        when
-        Employee updatedEmployee = employeeService.updateEmployee(id);
+        Employee updatedEmployee = employeeService.updateEmployee(inputEmployee,id);
 //        then
         assertEquals(inputEmployee.getAge() + 1, updatedEmployee.getAge());
         assertEquals(inputEmployee.getSalary() + 1000, updatedEmployee.getSalary());
-        verify(employeeDbDao, times(1)).updateEmployee(id, 1000, 1);
+        verify(employeeDbDao, times(1)).updateEmployee(inputEmployee,id);
         verify(employeeDbDao, times(1)).getEmployeeById(id);
     }
 
@@ -90,7 +94,8 @@ class EmployeeServiceTest {
     void get_employees_by_id_successfully() {
 //        given
         int id = 1;
-        Employee dbOutMockEmployee = new Employee(1, "oocl", 20, "Male", 8000, true,1);
+//        Employee dbOutMockEmployee = new Employee(1, "oocl", 20, "Male", 8000, true,1);
+        Employee dbOutMockEmployee = new Employee(1, "oocl", 20, "Male", 8000, true);
         Mockito.when(employeeDbDao.getEmployeeById(Mockito.any(Integer.class))).thenReturn(dbOutMockEmployee);
 //        when
         Employee employee = employeeService.getEmployeeById(id);
@@ -113,13 +118,18 @@ class EmployeeServiceTest {
     @Test
     void get_all_employees_successfully() {
 //        given
+//        Map<Integer, Employee> employees = new HashMap<>(Map.of(
+//                1, new Employee(1, "John Smith", 32, "Male", 5000.0, true,1),
+//                2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true,1),
+//                3, new Employee(3, "David Williams", 35, "Male", 5500.0, true,1),
+//                4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true,1),
+//                5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true,1)));
         Map<Integer, Employee> employees = new HashMap<>(Map.of(
-                1, new Employee(1, "John Smith", 32, "Male", 5000.0, true,1),
-                2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true,1),
-                3, new Employee(3, "David Williams", 35, "Male", 5500.0, true,1),
-                4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true,1),
-                5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true,1)));
-
+                1, new Employee(1, "John Smith", 32, "Male", 5000.0, true),
+                2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true),
+                3, new Employee(3, "David Williams", 35, "Male", 5500.0, true),
+                4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true),
+                5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true)));
         ArrayList<Employee> dbOutMockEmployees = new ArrayList<>(employees.values());
 
         Mockito.when(employeeDbDao.getAllEmployees()).thenReturn(dbOutMockEmployees);
@@ -135,12 +145,18 @@ class EmployeeServiceTest {
     void get_employees_by_gender() {
 //        given
         String gender = "Male";
+//        Map<Integer, Employee> employees = new HashMap<>(Map.of(
+//                1, new Employee(1, "John Smith", 32, "Male", 5000.0, true,1),
+//                2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true,1),
+//                3, new Employee(3, "David Williams", 35, "Male", 5500.0, true,1),
+//                4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true,1),
+//                5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true,1)));
         Map<Integer, Employee> employees = new HashMap<>(Map.of(
-                1, new Employee(1, "John Smith", 32, "Male", 5000.0, true,1),
-                2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true,1),
-                3, new Employee(3, "David Williams", 35, "Male", 5500.0, true,1),
-                4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true,1),
-                5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true,1)));
+                1, new Employee(1, "John Smith", 32, "Male", 5000.0, true),
+                2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true),
+                3, new Employee(3, "David Williams", 35, "Male", 5500.0, true),
+                4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true),
+                5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true)));
         employees.remove(2);
         employees.remove(4);
         ArrayList<Employee> dbOutMockEmployees = new ArrayList<>(employees.values());

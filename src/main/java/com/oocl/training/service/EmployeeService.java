@@ -43,14 +43,12 @@ public class EmployeeService {
         employeeDao.remove(id);
     }
 
-    public Employee updateEmployee(int id) {
-        Employee employee = employeeDao.getEmployeeById(id);
+    public Employee updateEmployee(Employee employee,Integer id) {
+        Employee getEmployee = employeeDao.getEmployeeById(id);
         if (!employee.isActive()) {
             throw new InvailEmployeeException("Cannot update an inactive employee");
         }
-        int updatedSalary = 1000;
-        int updatedAge = 1;
-        return employeeDao.updateEmployee(id, updatedSalary, updatedAge);
+        return employeeDao.updateEmployee(employee,id);
     }
 
     public Employee getEmployeeById(int id) {

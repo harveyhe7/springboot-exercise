@@ -11,12 +11,18 @@ import java.util.Map;
 
 @Repository
 public class EmployeeMemoryDao implements EmployeeDao{
-    private final Map<Integer, Employee> employees = new HashMap<>(Map.of(
-            1, new Employee(1, "John Smith", 32, "Male", 5000.0, true,1),
-            2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true,1),
-            3, new Employee(3, "David Williams", 35, "Male", 5500.0, true,1),
-            4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true,1),
-            5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true,1)));
+//    private final Map<Integer, Employee> employees = new HashMap<>(Map.of(
+//            1, new Employee(1, "John Smith", 32, "Male", 5000.0, true,1),
+//            2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true,1),
+//            3, new Employee(3, "David Williams", 35, "Male", 5500.0, true,1),
+//            4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true,1),
+//            5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true,1)));
+private final Map<Integer, Employee> employees = new HashMap<>(Map.of(
+        1, new Employee(1, "John Smith", 32, "Male", 5000.0, true),
+        2, new Employee(2, "Jane Johnson", 28, "Female", 6000.0, true),
+        3, new Employee(3, "David Williams", 35, "Male", 5500.0, true),
+        4, new Employee(4, "Emily Brown", 23, "Female", 4500.0, true),
+        5, new Employee(5, "Michael Jones", 40, "Male", 7000.0, true)));
     @Override
     public Employee save(Employee employee) {
         employee.setId(employees.size() + 1);
@@ -46,11 +52,11 @@ public class EmployeeMemoryDao implements EmployeeDao{
     }
 
     @Override
-    public Employee updateEmployee(int id, int updatedSalary, int updatedAge) {
-        Employee employee = employees.get(id);
-        if (employee != null) {
-            employee.setSalary(updatedSalary);
-            employee.setAge(updatedAge);
+    public Employee updateEmployee(Employee employee, Integer id) {
+        Employee getEmployee = employees.get(id);
+        if (getEmployee != null) {
+            getEmployee.setSalary(employee.getSalary());
+            getEmployee.setAge(employee.getAge());
         }
         return employee;
     }

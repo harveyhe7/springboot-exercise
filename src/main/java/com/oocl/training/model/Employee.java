@@ -20,7 +20,21 @@ public class Employee {
     String gender;
     double salary;
     boolean active;
-    int companyId;
+//    int companyId;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+//    public Employee(String name, int age, String gender, double salary, boolean active, int companyId) {
+//        this.name = name;
+//        this.age = age;
+//        this.gender = gender;
+//        this.salary = salary;
+//        this.active = active;
+//        this.companyId = companyId;
+//        this.company = null;
+//    }
 
     public Employee(String name, int age, String gender, double salary, boolean active) {
         this.name = name;
@@ -28,5 +42,26 @@ public class Employee {
         this.gender = gender;
         this.salary = salary;
         this.active = active;
+        this.company = null;
+    }
+
+//    public Employee(Integer id,String name, int age, String gender, double salary, boolean active, int companyId) {
+//        this.id = id;
+//        this.name = name;
+//        this.age = age;
+//        this.gender = gender;
+//        this.salary = salary;
+//        this.active = active;
+//        this.companyId = companyId;
+//        this.company = null;
+//    }
+    public Employee(Integer id,String name, int age, String gender, double salary, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.active = active;
+        this.company = null;
     }
 }
