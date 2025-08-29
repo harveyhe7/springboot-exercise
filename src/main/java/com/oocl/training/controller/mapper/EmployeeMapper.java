@@ -32,4 +32,10 @@ public class EmployeeMapper {
         employee.setCompany(company);
         return employee;
     }
+
+    public List<Employee> toEntity(List<EmployeeRequest> employeeRequests) {
+        return employeeRequests.stream()
+                .map(this::toEntity)
+                .toList();
+    }
 }
