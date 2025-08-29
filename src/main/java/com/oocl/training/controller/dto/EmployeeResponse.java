@@ -13,6 +13,5 @@ public class EmployeeResponse {
     private String name;
     private Integer age;
     private String gender;
-    private Boolean active;
     private Company company;
 }
