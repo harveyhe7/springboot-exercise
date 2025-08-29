@@ -39,19 +39,23 @@ public class EmployeeDbDao implements EmployeeDao {
     }
 
     @Override
-    public Employee updateEmployee(int id, int updatedSalary, int updatedAge) {
-        Employee employee = jpaEmployeeDao.findById(id).orElse(null);
-        if (employee != null) {
-            employee.setSalary(updatedSalary);
-            employee.setAge(updatedAge);
+    public Employee updateEmployee(Employee employee, Integer id) {
+        Employee getEmployee = jpaEmployeeDao.findById(id).orElse(null);
+        if (getEmployee != null) {
+            getEmployee.setSalary(employee.getSalary());
+            getEmployee.setAge(employee.getAge());
             jpaEmployeeDao.save(employee);
         }
-        return employee;
+        return getEmployee;
     }
 
     @Override
     public Employee getEmployeeById(int id) throws ResourceNotFoundException {
 
         return jpaEmployeeDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id + "") );
+    }
+
+    public void deleteAll() {
+        jpaEmployeeDao.deleteAll();
     }
 }

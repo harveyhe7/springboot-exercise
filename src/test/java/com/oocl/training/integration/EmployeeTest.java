@@ -2,11 +2,12 @@ package com.oocl.training.integration;
 
 import com.oocl.training.dao.EmployeeDbDao;
 import com.oocl.training.model.Employee;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,6 +17,8 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
 public class EmployeeTest {
 
     @Autowired
@@ -24,14 +27,24 @@ public class EmployeeTest {
     @Autowired
     private EmployeeDbDao employeeDbDao;
 
-    @BeforeEach
+    @BeforeAll
     public void setup () {
-        employeeDbDao.getAllEmployees().clear();
-        employeeDbDao.save(new Employee(1,"John", 25, "Male", 30000, true,1));
-        employeeDbDao.save(new Employee(2,"John2", 25, "Female", 30000, true,2));
-        employeeDbDao.save(new Employee(3,"John3", 25, "Male", 30000, true,1));
-        employeeDbDao.save(new Employee(4,"John4", 25, "Female", 30000, true,2));
-        employeeDbDao.save(new Employee(5,"John5", 20, "Male", 3000, true,1));
+//        employeeDbDao.save(new Employee("John", 25, "Male", 30000, true,1));
+//        employeeDbDao.save(new Employee("John2", 25, "Female", 30000, true,2));
+//        employeeDbDao.save(new Employee("John3", 25, "Male", 30000, true,1));
+//        employeeDbDao.save(new Employee("John4", 25, "Female", 30000, true,2));
+//        employeeDbDao.save(new Employee("John5", 20, "Male", 3000, true,1));
+        employeeDbDao.save(new Employee("John", 25, "Male", 30000, true));
+        employeeDbDao.save(new Employee("John2", 25, "Female", 30000, true));
+        employeeDbDao.save(new Employee("John3", 25, "Male", 30000, true));
+        employeeDbDao.save(new Employee("John4", 25, "Female", 30000, true));
+        employeeDbDao.save(new Employee("John5", 20, "Male", 3000, true));
+    }
+
+    @AfterAll
+    public void tearDown() {
+        // 删除上述添加的员工
+        employeeDbDao.deleteAll();
     }
 
     @Test
