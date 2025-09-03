@@ -44,7 +44,7 @@ public class EmployeeDbDao implements EmployeeDao {
         if (getEmployee != null) {
             getEmployee.setSalary(employee.getSalary());
             getEmployee.setAge(employee.getAge());
-            jpaEmployeeDao.save(employee);
+            jpaEmployeeDao.save(getEmployee);
         }
         return getEmployee;
     }
